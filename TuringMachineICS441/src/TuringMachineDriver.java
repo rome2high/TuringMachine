@@ -10,36 +10,52 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TuringMachineDriver implements ActionListener{
 	
-	static TuringMachine currentTuringMachine;	
+	static TuringMachine currentTuringMachine;
 	
 	public static void main(String[] args) throws IOException
 	{
 		System.out.println("Welcome back Mr.Rome!");
 		
-		File fiTMdef = GetUserInput("Enter Turing Machine definition file then press enter : ");
+		File fiTMdef = null;// GetUserInput("Enter Turing Machine definition file then press enter : ");
 			//remove when done; for testing purposed
 		fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\ma.txt");
 		System.out.println(fiTMdef + " exist = " + fiTMdef.exists());
 		
 			//read defFilePath
-				
+		List<String> liTMdef = ReadFile(fiTMdef.toString());
+		
 				//validate defFilePath
+		String[] arrTMdef = liTMdef.toArray(new String[liTMdef.size()]);
+		
+		for (int i = 0; i < arrTMdef.length; i++){
+			System.out.println(arrTMdef[i]);
+		}
 		
 		
-		File fiTMInput = GetUserInput("Enter input file then press enter : ");
+		File fiTMInput = null; //GetUserInput("Enter input file then press enter : ");
 		//remove when done; for testing purposed
 		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
 		System.out.println(fiTMInput + " exist = " + fiTMInput.exists());
 		
 			//read input file
+		List<String> liTMInput = ReadFile(fiTMInput.toString());
 		
 				//validate input file
+		String[] arrTMInput = liTMInput.toArray(new String[liTMInput.size()]);
+				
+		for (int j = 0; j < arrTMInput.length; j++){
+			System.out.println(arrTMInput[j]);
+		}
 		
 		//run machine
 
@@ -48,6 +64,24 @@ public class TuringMachineDriver implements ActionListener{
 		//initGUI();
 		
 		System.out.println("end!");
+	}
+
+	private static List<String> ReadFile(String path) throws IOException {
+		
+		List<String> liString =  new ArrayList<String>();
+		
+		BufferedReader br = new BufferedReader(new FileReader(path));
+	    try {
+	        String line = br.readLine();
+
+	        while (line != null) {
+	        	liString.add(line);
+	            line = br.readLine();
+	        }
+	    } finally {
+	        br.close();
+	    }
+		return liString;
 	}
 
 	private static File GetUserInput(String prompt) throws IOException{
