@@ -14,10 +14,15 @@ public class TuringMachine1 extends TuringMachine {
 		boolean Rexist = false;
 		char[] aStates = liTMdef.get(0).toCharArray();
 		
-		stateCollection = new State[aStates.length];
+		if(liTMdef.get(0).contains("R")){
+			stateCollection = new State[aStates.length];
+		}else{
+			stateCollection = new State[aStates.length + 1];
+			stateCollection[aStates.length] = new State("R");
+			}
 		
 		for(int i = 0; i < aStates.length; i++){
-			System.out.println(aStates[i]);
+			//System.out.println(aStates[i]);
 			switch(aStates[i]){
 				case 'S':
 					stateCollection[i] = new State("S");
@@ -30,7 +35,6 @@ public class TuringMachine1 extends TuringMachine {
 				case 'R':
 					stateCollection[i] = new State("R");
 					qreject = i;
-					Rexist = true;
 					break;
 				default:
 					stateCollection[i] = new State(Character.toString(aStates[i]));
@@ -38,9 +42,6 @@ public class TuringMachine1 extends TuringMachine {
 			}
 		}
 		
-		if(!Rexist){
-			//stateCollection[aStates.length + 1] = new State("qreject");
-		}
 			//stateCollection[i] = new State("q" + i);
 		
 //		qaccept = 4;
@@ -55,7 +56,7 @@ public class TuringMachine1 extends TuringMachine {
 			//get Trans Alphabet		
 		
 		for(int i = 2; i < liTMdef.size(); i++){
-			System.out.println(liTMdef.get(i));
+			//System.out.println(liTMdef.get(i));
 			
 			boolean moveDir;
 			char[] arTrans = liTMdef.get(i).toCharArray();
@@ -77,48 +78,8 @@ public class TuringMachine1 extends TuringMachine {
 			int sIndex = GetStateIndex(currState);
 			int gotoIndex = GetStateIndex(gotoState);
 			
-			
-			stateCollection[sIndex].addTransition(new Transition(readChar, writeChar, moveDirection, stateCollection[gotoIndex]));
-			
-			
-		}
-		
-		
-		
-//		stateCollection[0].addTransition(new Transition('x', moveRight, stateCollection[0]));
-//		stateCollection[0].addTransition(new Transition(' ', moveRight, stateCollection[qaccept]));
-//		stateCollection[0].addTransition(new Transition('1', moveRight, stateCollection[qreject]));
-//		stateCollection[0].addTransition(new Transition('2', moveRight, stateCollection[qreject]));
-//		stateCollection[0].addTransition(new Transition('0', 'x', moveRight, stateCollection[1]));
-//		
-//		stateCollection[1].addTransition(new Transition('x', moveRight, stateCollection[1]));
-//		stateCollection[1].addTransition(new Transition('0', moveRight, stateCollection[1]));
-//		stateCollection[1].addTransition(new Transition(' ', moveRight, stateCollection[qreject]));
-//		stateCollection[1].addTransition(new Transition('2', moveRight, stateCollection[qreject]));
-//		stateCollection[1].addTransition(new Transition('1', 'x', moveRight, stateCollection[2]));
-//		
-//		stateCollection[2].addTransition(new Transition('x', moveRight, stateCollection[2]));
-//		stateCollection[2].addTransition(new Transition('1', moveRight, stateCollection[2]));
-//		stateCollection[2].addTransition(new Transition('0', moveRight, stateCollection[qreject]));
-//		stateCollection[2].addTransition(new Transition(' ', moveRight, stateCollection[qreject]));
-//		stateCollection[2].addTransition(new Transition('2', 'x', moveLeft, stateCollection[3]));
-//		
-//		stateCollection[3].addTransition(new Transition('x', moveLeft, stateCollection[3]));
-//		stateCollection[3].addTransition(new Transition('1', moveLeft, stateCollection[3]));
-//		stateCollection[3].addTransition(new Transition('0', moveLeft, stateCollection[3]));
-//		stateCollection[3].addTransition(new Transition(' ', moveRight, stateCollection[0]));		
-	}
-
-//	private int GetStateIndex(char state) {
-//		
-//		for  (int i = 0; i < stateCollection.length; i++){
-//			State  s = stateCollection[i];
-//			if(s.getName().equals(Character.toString(state))){
-//				return i;
-//			}
-//		}
-//		return -1;
-//	}
-	
+			stateCollection[sIndex].addTransition(new Transition(readChar, writeChar, moveDirection, stateCollection[gotoIndex]));	
+		}		
+	}	
 
 }

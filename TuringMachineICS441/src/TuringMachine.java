@@ -72,7 +72,10 @@ public abstract class TuringMachine {
 	    int sIndex = GetStateIndex('S');
 	    int aIndex = GetStateIndex('A');
 	    int rIndex = GetStateIndex('R');
-		currentState = stateCollection[sIndex];		
+		currentState = stateCollection[sIndex];
+		State acceptState = stateCollection[aIndex];
+		State rejectState = stateCollection[rIndex];
+		
 		
 		if(response == 0)
 		{
@@ -81,16 +84,23 @@ public abstract class TuringMachine {
 			System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 		}
 		
-		while(currentState != stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
+		int count = 0;
+		while(currentState != acceptState && currentState != rejectState)	// stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
 		{
+			if(count >= 1000){
+				currentState = rejectState;
+				break;
+			}
 			currentState = transition(currentState, tape.read());
 			if(response == 0){
 				//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 				System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 			}
+			count++;
 		}
-		
-		return currentState == stateCollection[stateCollection.length - 2];		
+			//print final
+		System.out.println("Final....");
+		return currentState == acceptState;
 	}
 	
 	/* The default transition method. Looks for a transition for some character that the current state has. If there is none, a NullPointerException is thrown, which symbolizes that the state doesn't have a transition for that character, and the machine will immediately reject.
@@ -127,7 +137,8 @@ public abstract class TuringMachine {
 		}
 		catch(Exception NullPointerException)
 		{
-			return stateCollection[stateCollection.length - 1];
+			return stateCollection[GetStateIndex('R')]; //illegal move; enter reject state
+			//return stateCollection[stateCollection.length - 1];
 		}
 	}
 	

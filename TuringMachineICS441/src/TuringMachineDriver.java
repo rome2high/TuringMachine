@@ -43,9 +43,9 @@ public class TuringMachineDriver implements ActionListener{
 				//validate defFilePath
 		String[] arTMdef = liTMdef.toArray(new String[liTMdef.size()]);
 		
-		for (int i = 0; i < arTMdef.length; i++){
-			System.out.println(arTMdef[i]);
-		}
+//		for (int i = 0; i < arTMdef.length; i++){
+//			System.out.println(arTMdef[i]);
+//		}
 		
 		
 		File fiTMInput = null;// GetUserInput("Enter input file then press enter : ");
@@ -60,18 +60,15 @@ public class TuringMachineDriver implements ActionListener{
 				//validate input file
 		String[] arTMInput = liTMInput.toArray(new String[liTMInput.size()]);
 				
-		for (int j = 0; j < arTMInput.length; j++){
-			System.out.println(arTMInput[j]);
-		}
+//		for (int j = 0; j < arTMInput.length; j++){
+//			System.out.println(arTMInput[j]);
+//		}
 		
 		//run machine
 		
 		currentTuringMachine = new TuringMachine1(arTMInput[0], liTMdef);
 
 		currentTuringMachine.run();
-		
-		//using GUI
-		//initGUI();
 		
 		System.out.println("end!");
 	}
