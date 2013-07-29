@@ -21,6 +21,9 @@ public abstract class TuringMachine {
 	//In correspondence with Transition constructors
 	protected boolean moveRight = false;
 	protected boolean moveLeft = true;
+	protected boolean stayPut = false;
+	
+	protected char moveDir;
 	
 	public TuringMachine(String inputString, List<String> liTMdef)
 	{
@@ -100,10 +103,25 @@ public abstract class TuringMachine {
 		{
 			tape.write(currentState.getTransition(currentChar).getWriteChar());
 			
-			if(currentState.getTransition(currentChar).getMoveLeft())
-				tape.moveLeft();
-			else
-				tape.moveRight();	
+			switch(currentState.getTransition(currentChar).getMoveDir()){
+				case 'R':
+					tape.moveRight();
+					break;
+				case 'L':
+					tape.moveLeft();
+					break;
+				case 'S':
+					//no transition
+					break;
+				default:
+					System.out.println("Invalid Move; Reject");
+					break;
+			}
+			
+//			if(currentState.getTransition(currentChar).getMoveLeft())
+//				tape.moveLeft();
+//			else
+//				tape.moveRight();	
 			
 			return currentState.getTransition(currentChar).getTransitionState();
 		}

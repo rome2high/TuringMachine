@@ -9,6 +9,7 @@ public class Transition {
 	private char transitionChar;
 	private char writeChar;
 	private boolean moveLeft;
+	private char moveDir;
 	
 	State transitionState;
 	
@@ -17,15 +18,17 @@ public class Transition {
 	{
 		this.transitionChar = transitionChar;
 		this.writeChar = transitionChar;
-		this.moveLeft = moveLeft;
+		//this.moveLeft = moveLeft;
+		this.moveDir = moveDir;
 		this.transitionState = transitionState;
 	}
 	
-	public Transition(char transitionChar, char writeChar, boolean moveLeft, State transitionState)
+	public Transition(char transitionChar, char writeChar, char moveDir, State transitionState)
 	{
 		this.transitionChar = transitionChar;
 		this.writeChar = writeChar;
-		this.moveLeft = moveLeft;
+		//this.moveLeft = moveLeft;
+		this.moveDir = moveDir;
 		this.transitionState = transitionState;
 	}
 	
@@ -42,6 +45,10 @@ public class Transition {
 	public boolean getMoveLeft()
 	{
 		return moveLeft;
+	}
+	
+	public char getMoveDir(){
+		return moveDir;
 	}
 	
 	public State getTransitionState()

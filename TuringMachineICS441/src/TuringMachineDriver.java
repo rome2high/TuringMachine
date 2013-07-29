@@ -50,7 +50,7 @@ public class TuringMachineDriver implements ActionListener{
 		
 		File fiTMInput = null;// GetUserInput("Enter input file then press enter : ");
 		//remove when done; for testing purposed
-		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
+		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\all0s.txt");
 		//fiTMInput = new File("H:\\TuringMachineICS441\\doc\\InputFileExample\\0_1_0_1_0.txt");
 		System.out.println(fiTMInput + " exist = " + fiTMInput.exists());
 		
@@ -148,7 +148,6 @@ public class TuringMachineDriver implements ActionListener{
 		container.setDefaultCloseOperation(3);
 		container.setResizable(false);
 		
-		
 	}
 	
 	public void actionPerformed(ActionEvent someEvent)
@@ -160,14 +159,6 @@ public class TuringMachineDriver implements ActionListener{
 		case "Machine 1":
 			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
 			currentTuringMachine = new TuringMachine1(inputString, liTMdef);
-			break;
-		case "Machine 2":
-			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
-			currentTuringMachine = new TuringMachine2(inputString);
-			break;
-		case "Machine 3":
-			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
-			currentTuringMachine = new TuringMachine3(inputString, liTMdef);
 			break;
 		default:
 			System.exit(1);

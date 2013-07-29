@@ -52,16 +52,14 @@ public class TuringMachine1 extends TuringMachine {
 	public void initTransitions(List<String> liTMdef)
 	{
 		System.out.println("Init Transition");
-			//get Trans Alphabet
-		
-		
-		String alphabet = liTMdef.get(1);
+			//get Trans Alphabet		
 		
 		for(int i = 2; i < liTMdef.size(); i++){
-			String currTrans = liTMdef.get(i);
-			System.out.println(currTrans);
+			System.out.println(liTMdef.get(i));
 			
+			boolean moveDir;
 			char[] arTrans = liTMdef.get(i).toCharArray();
+			
 			
 			char currState = arTrans[0];
 			char readChar = arTrans[1];
@@ -69,11 +67,18 @@ public class TuringMachine1 extends TuringMachine {
 			char writeChar = arTrans[4];
 			char moveDirection = arTrans[5];
 			
+			if(moveDirection == 'R')
+				moveDir = moveRight;
+			else if (moveDirection == 'L')
+				moveDir = moveLeft;
+			else
+				moveDir = stayPut = true;
+			
 			int sIndex = GetStateIndex(currState);
 			int gotoIndex = GetStateIndex(gotoState);
 			
 			
-			stateCollection[sIndex].addTransition(new Transition(readChar, writeChar, moveRight, stateCollection[gotoIndex]));
+			stateCollection[sIndex].addTransition(new Transition(readChar, writeChar, moveDirection, stateCollection[gotoIndex]));
 			
 			
 		}
