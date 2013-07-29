@@ -1,13 +1,16 @@
+import java.util.List;
+
 /* @Description: Describes the Turing Machine 0^n 1^n^2 */
 
 public class TuringMachine3 extends TuringMachine{
 
-	public TuringMachine3(String inputString) 
+	public TuringMachine3(String inputString, List<String> liTMdef) 
 	{
-		super(inputString, inputString.length());
+		//super(inputString, inputString.length());
+		super(inputString, liTMdef);
 	}
 	
-	public void initStates()
+	public void initStates(List<String>	liTMdef)
 	{
 		stateCollection = new State[15];
 		for(int i = 0; i < 13; i++)
@@ -20,7 +23,7 @@ public class TuringMachine3 extends TuringMachine{
 		stateCollection[qreject] = new State("qreject");		
 	}
 	
-	public void initTransitions()
+	public void initTransitions(List<String> liTMdef)
 	{
 		stateCollection[0].addTransition(new Transition(' ', moveRight, stateCollection[qaccept]));
 		stateCollection[0].addTransition(new Transition('0', moveRight, stateCollection[0]));

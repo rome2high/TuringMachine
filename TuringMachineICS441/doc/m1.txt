@@ -1,0 +1,24 @@
+ABCDEFGHS
+01#x_
+S0 BxR
+S1 DxR
+S# C#R
+B0 B0R
+B1 B1R
+B# E#R
+Cx CxR
+C_ A_R
+D1 D1R
+D0 D0R
+D# F#R
+Ex ExR
+E0 GxL
+Fx FxR
+F1 GxL
+Gx GxL
+G1 G1L
+G0 G0L
+G# H#L
+H1 H1L
+H0 H0L
+Hx SxR

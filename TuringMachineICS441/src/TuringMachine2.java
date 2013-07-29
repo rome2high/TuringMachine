@@ -1,13 +1,15 @@
+import java.util.List;
+
 /*	@Description: Describes the Turing Machine w w^R */
 
 public class TuringMachine2 extends TuringMachine{
 	
 	public TuringMachine2(String inputString) 
 	{
-		super(inputString);
+		super(inputString, null);
 	}
 	
-	public void initStates()
+	public void initStates(List<String> liTMdef)
 	{
 		stateCollection = new State[8];
 		
@@ -21,7 +23,7 @@ public class TuringMachine2 extends TuringMachine{
 		stateCollection[qreject] = new State("qreject");		
 	}
 	
-	public void initTransitions()
+	public void initTransitions(List<String> liTMdef)
 	{
 		stateCollection[0].addTransition(new Transition('x', moveRight, stateCollection[0]));
 		stateCollection[0].addTransition(new Transition(' ', moveRight, stateCollection[qaccept]));

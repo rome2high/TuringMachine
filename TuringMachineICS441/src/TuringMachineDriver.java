@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class TuringMachineDriver implements ActionListener{
 	
 	static TuringMachine currentTuringMachine;
+	static List<String> liTMdef;
 	
 	public static void main(String[] args) throws IOException
 	{
@@ -29,36 +30,45 @@ public class TuringMachineDriver implements ActionListener{
 		File fiTMdef = null;// GetUserInput("Enter Turing Machine definition file then press enter : ");
 			//remove when done; for testing purposed
 		fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\ma.txt");
+		//fiTMdef = new File("H:\\TuringMachineICS441\\doc\\ma.txt");
 		System.out.println(fiTMdef + " exist = " + fiTMdef.exists());
 		
 			//read defFilePath
-		List<String> liTMdef = ReadFile(fiTMdef.toString());
+		liTMdef = ReadFile(fiTMdef.toString());
+		
+			//return if definition file less than 3 line; kill app for now but can handle better
+		if(liTMdef.size() < 3)
+			return;
 		
 				//validate defFilePath
-		String[] arrTMdef = liTMdef.toArray(new String[liTMdef.size()]);
+		String[] arTMdef = liTMdef.toArray(new String[liTMdef.size()]);
 		
-		for (int i = 0; i < arrTMdef.length; i++){
-			System.out.println(arrTMdef[i]);
+		for (int i = 0; i < arTMdef.length; i++){
+			System.out.println(arTMdef[i]);
 		}
 		
 		
-		File fiTMInput = null; //GetUserInput("Enter input file then press enter : ");
+		File fiTMInput = null;// GetUserInput("Enter input file then press enter : ");
 		//remove when done; for testing purposed
 		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
+		//fiTMInput = new File("H:\\TuringMachineICS441\\doc\\InputFileExample\\0_1_0_1_0.txt");
 		System.out.println(fiTMInput + " exist = " + fiTMInput.exists());
 		
 			//read input file
 		List<String> liTMInput = ReadFile(fiTMInput.toString());
 		
 				//validate input file
-		String[] arrTMInput = liTMInput.toArray(new String[liTMInput.size()]);
+		String[] arTMInput = liTMInput.toArray(new String[liTMInput.size()]);
 				
-		for (int j = 0; j < arrTMInput.length; j++){
-			System.out.println(arrTMInput[j]);
+		for (int j = 0; j < arTMInput.length; j++){
+			System.out.println(arTMInput[j]);
 		}
 		
 		//run machine
+		
+		currentTuringMachine = new TuringMachine1(arTMInput[0], liTMdef);
 
+		currentTuringMachine.run();
 		
 		//using GUI
 		//initGUI();
@@ -143,13 +153,13 @@ public class TuringMachineDriver implements ActionListener{
 	
 	public void actionPerformed(ActionEvent someEvent)
 	{
-	    String inputString;	    
+	    String inputString;
 		
 		switch(someEvent.getActionCommand())
 		{
 		case "Machine 1":
 			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
-			currentTuringMachine = new TuringMachine1(inputString);
+			currentTuringMachine = new TuringMachine1(inputString, liTMdef);
 			break;
 		case "Machine 2":
 			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
@@ -157,7 +167,7 @@ public class TuringMachineDriver implements ActionListener{
 			break;
 		case "Machine 3":
 			inputString = JOptionPane.showInputDialog("Please input a string for this machine: "); 
-			currentTuringMachine = new TuringMachine3(inputString);
+			currentTuringMachine = new TuringMachine3(inputString, liTMdef);
 			break;
 		default:
 			System.exit(1);

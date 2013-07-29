@@ -1,3 +1,6 @@
+import java.io.Console;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 /* @Description: This class describes a TuringMachine. Individual Turing Machines that you wish to implement must extend this class and provide their own initStates() and initTransitions() method contents.
@@ -11,40 +14,42 @@ public abstract class TuringMachine {
 	protected State currentState;
 	
 	//Variables used for readability-sake in instanced Turing Machine code
+	protected int qstart;
 	protected int qaccept;
 	protected int qreject;
+	
 	//In correspondence with Transition constructors
 	protected boolean moveRight = false;
 	protected boolean moveLeft = true;
 	
-	public TuringMachine(String inputString)
+	public TuringMachine(String inputString, List<String> liTMdef)
 	{
 		tape = new TapeMemory(inputString);
-		initStates();
-		initTransitions();
+		initStates(liTMdef);
+		initTransitions(liTMdef);
 	}
 	
 	/* Some Turing Machines may require additional space at the beginning and/or end of the string for proper operation */
-	public TuringMachine(String inputString, int blankSpace)
-	{
-		tape = new TapeMemory(inputString, blankSpace);
-		initStates();
-		initTransitions();
-	}
-	
-	public TuringMachine(int blankSpace, String inputString)
-	{
-		tape = new TapeMemory(blankSpace, inputString);
-		initStates();
-		initTransitions();
-	}
-	
-	public TuringMachine(int preBlankSpace, String inputString, int postBlankSpace)
-	{
-		tape = new TapeMemory(preBlankSpace, inputString, postBlankSpace);
-		initStates();
-		initTransitions();
-	}
+//	public TuringMachine(String inputString, int blankSpace)
+//	{
+//		tape = new TapeMemory(inputString, blankSpace);
+//		initStates();
+//		initTransitions();
+//	}
+//	
+//	public TuringMachine(int blankSpace, String inputString)
+//	{
+//		tape = new TapeMemory(blankSpace, inputString);
+//		initStates();
+//		initTransitions();
+//	}
+//	
+//	public TuringMachine(int preBlankSpace, String inputString, int postBlankSpace)
+//	{
+//		tape = new TapeMemory(preBlankSpace, inputString, postBlankSpace);
+//		initStates();
+//		initTransitions();
+//	}
 	
 	/* The default run method. Turing Machines start in some initial state and execute transitions based on what is read from the tape until they reach the accept or reject state.
 	 * 		In this code, the accept state is second from the end of the collection of states, and the reject state is the last state in the array.
@@ -56,21 +61,30 @@ public abstract class TuringMachine {
 		TuringMachineGUI guiRepresentation;		
 		int response;
 		
-	    response = JOptionPane.showConfirmDialog(null,"Do you want verbose output?", "Verbose Output Selection", JOptionPane.YES_NO_OPTION);
-	    guiRepresentation = new TuringMachineGUI();
-		currentState = stateCollection[0];		
+	    //response = JOptionPane.showConfirmDialog(null,"Do you want verbose output?", "Verbose Output Selection", JOptionPane.YES_NO_OPTION);
+	    //guiRepresentation = new TuringMachineGUI();
+		
+		response = 0;
+	    
+	    int sIndex = GetStateIndex('S');
+	    int aIndex = GetStateIndex('A');
+	    int rIndex = GetStateIndex('R');
+		currentState = stateCollection[sIndex];		
 		
 		if(response == 0)
 		{
-			guiRepresentation.setVisible(true);
-			guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+			//guiRepresentation.setVisible(true);
+			//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+			System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 		}
 		
-		while(currentState != stateCollection[stateCollection.length - 2] && currentState != stateCollection[stateCollection.length - 1])
+		while(currentState != stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
 		{
 			currentState = transition(currentState, tape.read());
-			if(response == 0)
-				guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+			if(response == 0){
+				//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+				System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+			}
 		}
 		
 		return currentState == stateCollection[stateCollection.length - 2];		
@@ -100,6 +114,18 @@ public abstract class TuringMachine {
 	}
 	
 	// @OVERRIDE these functions in any specific implementation to properly initialize the States and Transitions for some Turing Machine. Look at the provided example Turing Machines for guidance.
-	public abstract void initStates();
-	public abstract void initTransitions();;
+	public abstract void initStates(List<String> liTMdef);
+	public abstract void initTransitions(List<String> liTMdef);;
+	
+	public int GetStateIndex(char state) {
+			
+			for  (int i = 0; i < stateCollection.length; i++){
+				State  s = stateCollection[i];
+				if(s.getName().equals(Character.toString(state))){
+					return i;
+				}
+			}
+			return -1;
+		}
+	
 }

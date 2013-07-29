@@ -1,0 +1,17 @@
+ABCDERS
+01x_
+S0 B_R
+Sx RxR
+S_ R_R
+Bx BxR
+B0 CxR
+B_ A_R
+Cx CxR
+C_ E_L
+C0 D0R
+D0 CxR
+Dx DxR
+D_ R_R
+E_ B_R
+E0 E0L
+Ex ExL
