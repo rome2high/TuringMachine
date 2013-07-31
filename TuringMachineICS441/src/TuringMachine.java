@@ -68,7 +68,7 @@ public abstract class TuringMachine {
 		String s = "";
 		
 		while (!s.equals("Y") && !s.equals("N")){
-			System.out.println("Do you want verbose output? (Y/N)");
+			System.out.print("Do you want verbose output mode? (Y/N) : ");
 			try {
 				s = TuringMachineDriver.ConsoleInput().toUpperCase();
 			} catch (IOException e) {
@@ -86,30 +86,32 @@ public abstract class TuringMachine {
 		State acceptState = stateCollection[GetStateIndex('A')];
 		State rejectState = stateCollection[GetStateIndex('R')];
 		
-		
-		if(s.equals("Y"))
-		{
-			//guiRepresentation.setVisible(true);
-			//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
-			System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
-		}
+
+		//guiRepresentation.setVisible(true);
+		//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+		System.out.println("---- Tape Initial Configuration ----");
+		System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+
 		
 		int count = 0;
 		while(currentState != acceptState && currentState != rejectState)	// stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
 		{
 			if(count >= 1000){
-				currentState = rejectState;
+				//currentState = rejectState;
 				break;
 			}
 			currentState = transition(currentState, tape.read());
 			if(s.equals("Y")){
 				//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
-				System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+				System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 			}
 			count++;
 		}
 			//print final
-		System.out.println("Final: Count-" +count + " State-"+currentState.getName());
+		System.out.println("---- Tape Final Configuration ----");
+		System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+		
+		//System.out.println("Final: Count-" +count + " State-"+currentState.getName());
 		
 		return currentState == acceptState;
 	}
