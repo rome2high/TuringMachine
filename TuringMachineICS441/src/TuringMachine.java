@@ -1,4 +1,5 @@
 import java.io.Console;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -64,20 +65,29 @@ public abstract class TuringMachine {
 		TuringMachineGUI guiRepresentation;		
 		int response;
 		
-	    //response = JOptionPane.showConfirmDialog(null,"Do you want verbose output?", "Verbose Output Selection", JOptionPane.YES_NO_OPTION);
-	    //guiRepresentation = new TuringMachineGUI();
+		String s = "";
+		
+		while (!s.equals("Y") && !s.equals("N")){
+			System.out.println("Do you want verbose output? (Y/N)");
+			try {
+				s = TuringMachineDriver.ConsoleInput().toUpperCase();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		response = 0;
 	    
-	    int sIndex = GetStateIndex('S');
-	    int aIndex = GetStateIndex('A');
-	    int rIndex = GetStateIndex('R');
-		currentState = stateCollection[sIndex];
-		State acceptState = stateCollection[aIndex];
-		State rejectState = stateCollection[rIndex];
+//	    int sIndex = GetStateIndex('S');
+//	    int aIndex = GetStateIndex('A');
+//	    int rIndex = GetStateIndex('R');
+		currentState = stateCollection[GetStateIndex('S')];
+		State acceptState = stateCollection[GetStateIndex('A')];
+		State rejectState = stateCollection[GetStateIndex('R')];
 		
 		
-		if(response == 0)
+		if(s.equals("Y"))
 		{
 			//guiRepresentation.setVisible(true);
 			//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
@@ -92,14 +102,15 @@ public abstract class TuringMachine {
 				break;
 			}
 			currentState = transition(currentState, tape.read());
-			if(response == 0){
+			if(s.equals("Y")){
 				//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 				System.out.println("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 			}
 			count++;
 		}
 			//print final
-		System.out.println("Final....");
+		System.out.println("Final: Count-" +count + " State-"+currentState.getName());
+		
 		return currentState == acceptState;
 	}
 	
@@ -108,7 +119,10 @@ public abstract class TuringMachine {
 	 * @NOTE: OVERRIDE this method if you want some non-typical transition behavior for your Turing Machine. This should not be necessary.
 	 */
 	public State transition(State currentState, char currentChar)
-	{		
+	{
+		if(currentChar == ' '){
+			currentChar = '_';
+		}
 		try
 		{
 			tape.write(currentState.getTransition(currentChar).getWriteChar());

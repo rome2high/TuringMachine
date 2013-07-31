@@ -27,9 +27,12 @@ public class TuringMachineDriver implements ActionListener{
 	{
 		System.out.println("Welcome back Mr.Rome!");
 		
-		File fiTMdef = null;// GetUserInput("Enter Turing Machine definition file then press enter : ");
+		//File fiTMdef = GetUserInput("Enter Turing Machine definition file then press enter : ");
 			//remove when done; for testing purposed
+		File fiTMdef = null;
 		fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\ma.txt");
+		//fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\m1.txt");
+		//fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\m2.txt");
 		//fiTMdef = new File("H:\\TuringMachineICS441\\doc\\ma.txt");
 		System.out.println(fiTMdef + " exist = " + fiTMdef.exists());
 		
@@ -48,9 +51,12 @@ public class TuringMachineDriver implements ActionListener{
 //		}
 		
 		
-		File fiTMInput = null;// GetUserInput("Enter input file then press enter : ");
+		//File fiTMInput = GetUserInput("Enter input file then press enter : ");
 		//remove when done; for testing purposed
-		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\all0s.txt");
+		File fiTMInput = null;
+		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
+		//fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0s1s-length60.txt");
+		//fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\all0s.txt");
 		//fiTMInput = new File("H:\\TuringMachineICS441\\doc\\InputFileExample\\0_1_0_1_0.txt");
 		System.out.println(fiTMInput + " exist = " + fiTMInput.exists());
 		
@@ -93,22 +99,33 @@ public class TuringMachineDriver implements ActionListener{
 
 	private static File GetUserInput(String prompt) throws IOException{
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String s = "";
+//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//		String s = "";
+		
+		//String s = "";// = ConsoleInput();
         
         try{
         	System.out.print(prompt);
-        	s = br.readLine();
-        	File dir = new File(s);
-        	while (!dir.exists()){		//user must enter a string
+        	//s = br.readLine();
+        	File dir = new File(ConsoleInput());
+        	while (!dir.getPath().endsWith(".txt") || !dir.exists()){		//user must enter a string
         		System.out.print("File Not Exist!; " + prompt);
-        		dir = new File(br.readLine());
+        		dir = new File(ConsoleInput());
         	}
         	return dir;
         }catch(NumberFormatException nfe){
             System.err.println("Invalid Format!");
         }
 		return null;
+	}
+	
+	public static String ConsoleInput() throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String s = "";
+		while (s.length() <= 0){
+			s = br.readLine();
+		}
+		return s;
 	}
 
 	public static void initGUI()
