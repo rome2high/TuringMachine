@@ -30,9 +30,9 @@ public class TuringMachineDriver implements ActionListener{
 		//File fiTMdef = GetUserInput("Enter Turing Machine definition file then press enter : ");
 			//remove when done; for testing purposed
 		File fiTMdef = null;
-		fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\ma.txt");
+		//fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\ma.txt");
 		//fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\m1.txt");
-		//fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\m2.txt");
+		fiTMdef = new File("C:\\My Box Files\\A\\ICS441\\Program\\m2.txt");
 		//fiTMdef = new File("H:\\TuringMachineICS441\\doc\\ma.txt");
 		System.out.println(fiTMdef + " exist = " + fiTMdef.exists());
 		
@@ -54,9 +54,9 @@ public class TuringMachineDriver implements ActionListener{
 		//File fiTMInput = GetUserInput("Enter input file then press enter : ");
 		//remove when done; for testing purposed
 		File fiTMInput = null;
-		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
+		//fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0_1_0_1_0.txt");
 		//fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\0s1s-length60.txt");
-		//fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\all0s.txt");
+		fiTMInput = new File("C:\\My Box Files\\A\\ICS441\\Program\\InputFileExample\\all0s.txt");
 		//fiTMInput = new File("H:\\TuringMachineICS441\\doc\\InputFileExample\\0_1_0_1_0.txt");
 		System.out.println(fiTMInput + " exist = " + fiTMInput.exists());
 		

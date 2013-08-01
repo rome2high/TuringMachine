@@ -20,6 +20,7 @@ public abstract class TuringMachine {
 	protected int qreject;
 	
 	//In correspondence with Transition constructors
+	protected boolean progReject = false;
 	protected boolean moveRight = false;
 	protected boolean moveLeft = true;
 	protected boolean stayPut = false;
@@ -33,28 +34,6 @@ public abstract class TuringMachine {
 		initTransitions(liTMdef);
 	}
 	
-	/* Some Turing Machines may require additional space at the beginning and/or end of the string for proper operation */
-//	public TuringMachine(String inputString, int blankSpace)
-//	{
-//		tape = new TapeMemory(inputString, blankSpace);
-//		initStates();
-//		initTransitions();
-//	}
-//	
-//	public TuringMachine(int blankSpace, String inputString)
-//	{
-//		tape = new TapeMemory(blankSpace, inputString);
-//		initStates();
-//		initTransitions();
-//	}
-//	
-//	public TuringMachine(int preBlankSpace, String inputString, int postBlankSpace)
-//	{
-//		tape = new TapeMemory(preBlankSpace, inputString, postBlankSpace);
-//		initStates();
-//		initTransitions();
-//	}
-	
 	/* The default run method. Turing Machines start in some initial state and execute transitions based on what is read from the tape until they reach the accept or reject state.
 	 * 		In this code, the accept state is second from the end of the collection of states, and the reject state is the last state in the array.
 	 * 
@@ -62,54 +41,61 @@ public abstract class TuringMachine {
 	 */
 	public boolean run()
 	{
-		TuringMachineGUI guiRepresentation;		
-		int response;
+		int counter = 0;
+		String result = "";
+		String input = "";
 		
-		String s = "";
-		
-		while (!s.equals("Y") && !s.equals("N")){
+		while (!input.equals("Y") && !input.equals("N")){
 			System.out.print("Do you want verbose output mode? (Y/N) : ");
 			try {
-				s = TuringMachineDriver.ConsoleInput().toUpperCase();
+				input = TuringMachineDriver.ConsoleInput().toUpperCase();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		response = 0;
-	    
-//	    int sIndex = GetStateIndex('S');
-//	    int aIndex = GetStateIndex('A');
-//	    int rIndex = GetStateIndex('R');
+		boolean verboseMode = input.equals("Y");
+		
 		currentState = stateCollection[GetStateIndex('S')];
 		State acceptState = stateCollection[GetStateIndex('A')];
-		State rejectState = stateCollection[GetStateIndex('R')];
 		
+		
+		//State rejectState = stateCollection[GetStateIndex('R')];
 
-		//guiRepresentation.setVisible(true);
-		//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+		
 		System.out.println("---- Tape Initial Configuration ----");
-		System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+		System.out.println("Current State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 
 		
-		int count = 0;
-		while(currentState != acceptState && currentState != rejectState)	// stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
+		while(currentState != acceptState && !currentState.getName().equals("R"))	// stateCollection[aIndex])// && currentState != stateCollection[stateCollection.length - 1])
 		{
-			if(count >= 1000){
+			if(counter >= 1000){
+				result = "Loop";
 				//currentState = rejectState;
+				break;
+			}else if (progReject){
+				result = "Reject";
 				break;
 			}
 			currentState = transition(currentState, tape.read());
-			if(s.equals("Y")){
+			if(verboseMode){
 				//guiRepresentation.addLine("State: " + currentState.getName() + ", Memory: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
-				System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+				
+				System.out.println("Current State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()));
 			}
-			count++;
+			counter++;
 		}
+		
+		if(!result.equals("Loop")){
+			if(currentState.getName().equals("A"))
+				result = "Accept";
+		}
+		
+		
 			//print final
 		System.out.println("---- Tape Final Configuration ----");
-		System.out.println("State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
+		System.out.println(tape.getPosition());
+		System.out.println(result + " State: " + currentState.getName() + ", Tape: " + tape.getTape().substring(0, tape.getPosition()) + "[" + tape.read() + "]" + tape.getTape().substring(tape.getPosition() + 1, tape.getTape().length()) + "\n");
 		
 		//System.out.println("Final: Count-" +count + " State-"+currentState.getName());
 		
@@ -122,13 +108,16 @@ public abstract class TuringMachine {
 	 */
 	public State transition(State currentState, char currentChar)
 	{
-		if(currentChar == ' '){
-			currentChar = '_';
-		}
+//		if(currentChar == ' '){
+//			currentChar = '_';
+//		}
 		try
 		{
-			tape.write(currentState.getTransition(currentChar).getWriteChar());
-			
+			if(currentChar == ' '){
+				tape.write('_');
+			}else{
+				tape.write(currentState.getTransition(currentChar).getWriteChar());
+			}
 			switch(currentState.getTransition(currentChar).getMoveDir()){
 				case 'R':
 					tape.moveRight();
@@ -144,16 +133,13 @@ public abstract class TuringMachine {
 					break;
 			}
 			
-//			if(currentState.getTransition(currentChar).getMoveLeft())
-//				tape.moveLeft();
-//			else
-//				tape.moveRight();	
-			
 			return currentState.getTransition(currentChar).getTransitionState();
 		}
 		catch(Exception NullPointerException)
 		{
-			return stateCollection[GetStateIndex('R')]; //illegal move; enter reject state
+			progReject = true;
+			return currentState;
+			//return stateCollection[GetStateIndex('R')]; //illegal move; enter reject state
 			//return stateCollection[stateCollection.length - 1];
 		}
 	}

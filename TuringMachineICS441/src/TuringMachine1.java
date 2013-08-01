@@ -14,12 +14,15 @@ public class TuringMachine1 extends TuringMachine {
 		boolean Rexist = false;
 		char[] aStates = liTMdef.get(0).toCharArray();
 		
-		if(liTMdef.get(0).contains("R")){
-			stateCollection = new State[aStates.length];
-		}else{
-			stateCollection = new State[aStates.length + 1];
-			stateCollection[aStates.length] = new State("R");
-			}
+		stateCollection = new State[aStates.length];
+		
+//		if(liTMdef.get(0).contains("R")){
+//			stateCollection = new State[aStates.length];
+//		}else{
+////			progReject = true;
+////			stateCollection = new State[aStates.length + 1];
+////			stateCollection[aStates.length] = new State("R");
+//			}
 		
 		for(int i = 0; i < aStates.length; i++){
 			//System.out.println(aStates[i]);
@@ -52,11 +55,12 @@ public class TuringMachine1 extends TuringMachine {
 	
 	public void initTransitions(List<String> liTMdef)
 	{
-		System.out.println("Init Transition");
 			//get Trans Alphabet		
 		
 		for(int i = 2; i < liTMdef.size(); i++){
-			//System.out.println(liTMdef.get(i));
+			
+			if(liTMdef.get(i).trim().length() < 1)
+				continue;
 			
 			boolean moveDir;
 			char[] arTrans = liTMdef.get(i).toCharArray();

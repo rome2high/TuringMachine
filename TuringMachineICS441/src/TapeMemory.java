@@ -36,22 +36,6 @@ public class TapeMemory {
 		tapeHead = 2;		
 	}
 	
-	public TapeMemory(int preBlankSpace, String testString, int postBlankSpace)
-	{
-		String preEmptyString = "";
-		String postEmptyString = "";
-		
-		for(int i = 0; i < preBlankSpace; i++)
-			preEmptyString += " ";
-		
-		for(int i = 0; i < postBlankSpace; i++)
-			preEmptyString += " ";
-		
-		memory = preEmptyString + testString + postEmptyString;		
-		tapeHead = preBlankSpace;		
-	}
-	
-	/* Duplicate the functionality of how a Turing Machine interacts with the tape */
 	public char read()
 	{
 		return memory.charAt(tapeHead);
